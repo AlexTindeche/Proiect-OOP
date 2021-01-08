@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 
+#include "durata.h"
+#include "durate.h"
+
 /**
  * Partituri
  * - Element (durata)
@@ -35,11 +38,33 @@ using namespace std;
  *     - salvare si citire din fisier (eventual genereaza binar)
  *     - operator [] pentru portative + .size()
  *     - canta() -> apeleaza metoda pentru fiecare portativ
+ * 
+ * TODO:
+ * - creat clase
+ *   ~ Durata (de mutat in fisier specific) <-
+*/
+
+/**
+ * -> creat clasa Durata (fractie din nota intreaga) <-
+ * -> adunare durata + durata => durata <-
+ * -> scadere durata - durata => durata <-
+ * -> impartire durata / durata => int numarul de chestii intregi <-
+ * -> modulo durata % durata => durata <-
+ * 
+ * -> int * durata si durata * int <-
+ * 
+ * -> comparari <-
+ * 
+ * -> colectia cu durate standard
+*/
+
+/**
+ * -> dicutie Element
 */
 
 int main()
 {
-	int x;
-	cin >> x;
+	cout << "Start debug. Enter to continue";
+	cin.get();
 	return 0;
 }

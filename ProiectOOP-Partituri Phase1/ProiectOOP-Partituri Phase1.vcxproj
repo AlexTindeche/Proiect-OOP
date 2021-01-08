@@ -139,7 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="durata.cpp" />
+    <ClCompile Include="durate.cpp" />
+    <ClCompile Include="element.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="portativ.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="durata.h" />
+    <ClInclude Include="durate.h" />
+    <ClInclude Include="element.h" />
+    <ClInclude Include="portativ.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
