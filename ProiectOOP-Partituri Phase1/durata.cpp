@@ -74,8 +74,8 @@ Durata Durata::operator+ (Durata d) const
 Durata Durata::operator- (Durata d)
 {
 	int div = cmmdc(this->numitor, d.numitor);
-	int amp_1 = this->numitor / div; // amplificare fractie 1
-	int amp_2 = d.numitor / div; // amplificare fractie 2
+	int amp_1 = d.numitor / div; // amplificare fractie 1
+	int amp_2 = this->numitor / div; // amplificare fractie 2
 
 	int numarator = this->numarator * amp_1 - d.numarator * amp_2;
 	int numitor = this->numitor * amp_1;

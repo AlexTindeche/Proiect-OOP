@@ -20,7 +20,7 @@ Pauza::Pauza(Durata d) :
 {}
 
 Nota::Nota(Durata d, Inaltime i, int o) :
-	Element(TipElement::NOTA, d),
+	Element{ TipElement::NOTA, d },
 	inaltime{i},
 	octava{o}
 {}

@@ -3,6 +3,8 @@ using namespace std;
 
 #include "durata.h"
 #include "durate.h"
+#include "portativ.h"
+#include "element.h"
 
 /**
  * Partituri
@@ -66,5 +68,18 @@ int main()
 {
 	cout << "Start debug. Enter to continue";
 	cin.get();
+	
+	Portativ p(Durate::DOIME);
+	p.add_element(Nota(Durate::OPTIME, Inaltime::DO, 0));
+	p.add_element(Pauza(Durate::PATRIME));
+	p.add_element(Nota(Durate::OPTIME, Inaltime::RE, 0));
+	p.add_element(Nota(Durate::OPTIME, Inaltime::MI, 0));
+	//p.remove_element();
+	cout << "nr elemente " << p.get_nr_elemente() << '\n'
+		<< "nr masuri " << p.get_nr_masuri() << '\n'
+		<< "nr note " << p.get_nr_note() << '\n'
+		<< "nr pauze " << p.get_nr_pauze() << '\n'
+		<< "nr ultima masura " << p.get_ultima_masura() << '\n';
+	p.afisare();
 	return 0;
 }
