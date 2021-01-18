@@ -57,7 +57,7 @@ using namespace std;
  * 
  * -> comparari <-
  * 
- * -> colectia cu durate standard
+ * -> colectia cu durate standard <-
 */
 
 /**
