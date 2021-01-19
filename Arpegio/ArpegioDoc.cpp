@@ -1,4 +1,4 @@
-
+﻿
 // ArpegioDoc.cpp : implementation of the CArpegioDoc class
 //
 
@@ -11,6 +11,7 @@
 #endif
 
 #include "ArpegioDoc.h"
+#include "AddNotaDlg.h"
 
 #include <propkey.h>
 
@@ -23,6 +24,7 @@
 IMPLEMENT_DYNCREATE(CArpegioDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CArpegioDoc, CDocument)
+	ON_COMMAND(ID_NOTA_ADAUGARE, &CArpegioDoc::OnNotaAdaugare)
 END_MESSAGE_MAP()
 
 
@@ -45,10 +47,32 @@ BOOL CArpegioDoc::OnNewDocument()
 
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
+	p = Portativ(L"Partitură");
 
 	return TRUE;
 }
 
+
+void CArpegioDoc::UpdateTitlu(CString titlu)
+{
+	p.set_titlu(titlu.GetString());
+	UpdateAllViews(NULL, 0, NULL);
+	SetModifiedFlag();
+}
+
+void CArpegioDoc::UpdateCheie(Cheie cheie)
+{
+	p.set_cheie(cheie);
+	UpdateAllViews(NULL, 0, NULL);
+	SetModifiedFlag();
+}
+
+void CArpegioDoc::UpdateMasura(Durata masura)
+{
+	p = Portativ(p.get_titlu(), masura, p.get_cheie());
+	UpdateAllViews(NULL, 0, NULL);
+	SetModifiedFlag();
+}
 
 
 
@@ -58,11 +82,46 @@ void CArpegioDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
-		ar << mesaj;
+		CString titlu(p.get_titlu().c_str());
+		ar << titlu << p.get_masura().get_numarator() << p.get_masura().get_numitor() << (int) p.get_cheie();
+
+		// adaugam elemente
+		ar << p.get_nr_elemente();
+		int size = p.get_nr_elemente();
+		for (int i = 0; i < size; i++)
+		{
+			Element* c = p.get_element(i);
+			ar << (int)c->get_tip_element() << c->get_durata().get_numarator() << c->get_durata().get_numitor();
+			if (c->get_tip_element() == TipElement::NOTA) {
+				ar << ((Nota*)c)->get_octava() << (int)((Nota*)c)->get_inaltime();
+			}
+		}
 	}
 	else
 	{
-		ar >> mesaj;
+		CString titlu;
+		int masura_numarator, masura_numitor, cheie, nr_elem;
+		
+		ar >> titlu >> masura_numarator >> masura_numitor >> cheie;
+		p = Portativ(titlu.GetString(), Durata(masura_numarator, masura_numitor), (Cheie)cheie);
+
+		ar >> nr_elem;
+		for (int i = 0; i < nr_elem; i++)
+		{
+			int tip_elem, dur_numarator, dur_numitor, octava, inaltime;
+			ar >> tip_elem >> dur_numarator >> dur_numitor;
+
+			if ((TipElement)tip_elem == TipElement::NOTA)
+			{
+				ar >> octava >> inaltime;
+				p.add_element(Nota(Durata(dur_numarator, dur_numitor), (Inaltime)inaltime, octava));
+			}
+			else
+			{
+				p.add_element(Pauza(Durata(dur_numarator, dur_numitor)));
+			}
+		}
+		//p.add_element(Nota(Durate::OPTIME, Inaltime::DO, 3));
 	}
 }
 
@@ -136,3 +195,18 @@ void CArpegioDoc::Dump(CDumpContext& dc) const
 
 
 // CArpegioDoc commands
+
+
+void CArpegioDoc::OnNotaAdaugare()
+{
+	AddNotaDlg d;
+	if (d.DoModal() == IDOK)
+	{
+		if (d.GetTipElement() == TipElement::NOTA)
+			p.add_element(d.GetNota());
+		else if (d.GetTipElement() == TipElement::PAUZA)
+			p.add_element(d.GetPauza());
+	}
+	UpdateAllViews(NULL, 0, NULL);
+	SetModifiedFlag();
+}

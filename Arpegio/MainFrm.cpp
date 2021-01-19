@@ -7,7 +7,7 @@
 #include "Arpegio.h"
 
 #include "MainFrm.h"
-#include "CPropertiesView.h"
+#include "PropertiesView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

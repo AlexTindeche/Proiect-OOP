@@ -4,7 +4,7 @@
 
 
 #pragma once
-
+#include "portativ.h"
 
 class CArpegioDoc : public CDocument
 {
@@ -35,6 +35,12 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
+// Document operations
+public:
+	void UpdateMasura(Durata masura);
+	void UpdateCheie(Cheie cheie);
+	void UpdateTitlu(CString titlu);
+
 protected:
 
 // Generated message map functions
@@ -47,5 +53,6 @@ protected:
 #endif // SHARED_HANDLERS
 
 public:
-	CString mesaj;
+	Portativ p;
+	afx_msg void OnNotaAdaugare();
 };
