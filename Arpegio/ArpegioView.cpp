@@ -51,7 +51,7 @@ BOOL CDocumentView::PreCreateWindow(CREATESTRUCT& cs)
 void CDocumentView::OnDraw(CDC* pDC)
 {
 	CArpegioDoc* pDoc = GetDocument();
-	pDC->DrawText(pDoc->mesaj, CRect(0, 0, 1000, 1000), 0);
+	pDC->DrawText(CString(pDoc->p.get_titlu().c_str()), CRect(0, 0, 1000, 1000), 0);
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
@@ -88,19 +88,19 @@ void CDocumentView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// TODO: Add your message handler code here and/or call default
 	CArpegioDoc* pDoc = GetDocument();
-	if (nChar == VK_ESCAPE)
-	{
-		pDoc->mesaj.Append(L"HELLOOOO!!!!");
-	}
+	//if (nChar == VK_ESCAPE)
+	//{
+	//	pDoc->mesaj.Append(L"HELLOOOO!!!!");
+	//}
 
-	else if (nChar == VK_BACK)
-	{
-		pDoc->mesaj = pDoc->mesaj.Right(pDoc->mesaj.GetLength() - 1);
-	}
-	else
-	{
-		pDoc->mesaj.AppendChar((char)nChar);
-	}
+	//else if (nChar == VK_BACK)
+	//{
+	//	pDoc->mesaj = pDoc->mesaj.Right(pDoc->mesaj.GetLength() - 1);
+	//}
+	//else
+	//{
+	//	pDoc->mesaj.AppendChar((char)nChar);
+	//}
 	Invalidate();
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }

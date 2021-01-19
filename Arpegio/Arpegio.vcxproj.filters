@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\dialogs">
+      <UniqueIdentifier>{fb8f1e6d-787f-4cf1-84c8-a2b2a1f93e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\views">
+      <UniqueIdentifier>{0731c4d6-15b6-4c89-9823-13cc91b0a67d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\data">
+      <UniqueIdentifier>{a49a5519-9521-4df7-8a2f-6ca5b3816149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dialogs">
+      <UniqueIdentifier>{2f175a0c-7274-42c0-bc17-0dba42e1eeae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\data">
+      <UniqueIdentifier>{b34ce12b-bfaa-4a08-8dcd-96422d56466d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\views">
+      <UniqueIdentifier>{3484bc97-5805-4834-b85f-f1836dafe8ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arpegio.h">
@@ -24,13 +42,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MainFrm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ArpegioDoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ArpegioView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -39,28 +51,64 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CPropertiesView.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ArpegioView.h">
+      <Filter>Header Files\views</Filter>
+    </ClInclude>
+    <ClInclude Include="portativ.h">
+      <Filter>Header Files\data</Filter>
+    </ClInclude>
+    <ClInclude Include="element.h">
+      <Filter>Header Files\data</Filter>
+    </ClInclude>
+    <ClInclude Include="durate.h">
+      <Filter>Header Files\data</Filter>
+    </ClInclude>
+    <ClInclude Include="durata.h">
+      <Filter>Header Files\data</Filter>
+    </ClInclude>
+    <ClInclude Include="AddNotaDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertiesView.h">
+      <Filter>Header Files\views</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header Files\views</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arpegio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ArpegioDoc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ArpegioView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CPropertiesView.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="durata.cpp">
+      <Filter>Source Files\data</Filter>
+    </ClCompile>
+    <ClCompile Include="durate.cpp">
+      <Filter>Source Files\data</Filter>
+    </ClCompile>
+    <ClCompile Include="element.cpp">
+      <Filter>Source Files\data</Filter>
+    </ClCompile>
+    <ClCompile Include="portativ.cpp">
+      <Filter>Source Files\data</Filter>
+    </ClCompile>
+    <ClCompile Include="ArpegioView.cpp">
+      <Filter>Source Files\views</Filter>
+    </ClCompile>
+    <ClCompile Include="AddNotaDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesView.cpp">
+      <Filter>Source Files\views</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source Files\views</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

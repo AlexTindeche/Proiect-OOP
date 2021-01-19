@@ -72,7 +72,7 @@ int main()
 	Portativ p(Durate::DOIME);
 	p.add_element(Nota(Durate::OPTIME, Inaltime::DO, 0));
 	p.add_element(Pauza(Durate::PATRIME));
-	p.add_element(Nota(Durate::OPTIME, Inaltime::RE, 0));
+	p.add_element(Nota(Durate::OPTIME, Inaltime::RE, 3));
 	p.add_element(Nota(Durate::OPTIME, Inaltime::MI, 0));
 	//p.remove_element();
 	cout << "nr elemente " << p.get_nr_elemente() << '\n'
