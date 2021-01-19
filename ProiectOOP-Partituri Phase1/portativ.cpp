@@ -118,7 +118,9 @@ Durata Portativ::get_ultima_masura()
 	return lungime;
 }
 
-bool Portativ::add_element(Element e)
+/*
+template <typename T>
+bool Portativ::add_element(T &e)
 {
 	// aflam durata ultimei masuri
 	Durata um = get_ultima_masura();
@@ -131,7 +133,7 @@ bool Portativ::add_element(Element e)
 		return false;
 
 	// adaugam elementul
-	Element* n = new Element(e);
+	Element* n = new T(e);
 	elemente.push_back(n);
 
 	// daca e masura noua modificam vectorul de masuri
@@ -140,6 +142,8 @@ bool Portativ::add_element(Element e)
 
 	return true;
 }
+*/
+
 
 void Portativ::remove_element()
 {
@@ -155,7 +159,7 @@ void Portativ::remove_element()
 	elemente.pop_back();
 }
 
-bool Portativ::replace_element(Element e, int pos)
+bool Portativ::replace_element(Element &e, int pos)
 {
 	// verificam daca pozitia e valida si
 	// verificam daca elementul dat are aceeasi durata ca cel inlocuit
@@ -185,8 +189,13 @@ void Portativ::afisare()
 		if (i < mas_len - 1)
 			stop = masuri[i + 1];
 
-		for (int j = masuri[i]; j < stop; j++)
+		for (int j = masuri[i]; j < stop; j++) {
 			cout << elemente[j]->get_durata() << " ";
+			if (elemente[j]->get_tip_element() == TipElement::NOTA) {
+				cout << "- " << ((Nota*)elemente[j])->get_octava();
+			}
+			cout << ", ";
+		}
 
 		cout << '\n';
 	}

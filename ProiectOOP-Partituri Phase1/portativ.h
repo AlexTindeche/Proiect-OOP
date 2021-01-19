@@ -77,7 +77,29 @@ public:
 	 * @param e elementul de adaugat
 	 * @return true daca s-a adaugat cu succes, false pentru erori
 	*/
-	bool add_element(Element e);
+	template<typename T>
+	bool add_element(T e)
+	{
+		// aflam durata ultimei masuri
+		Durata um = get_ultima_masura();
+		if (um == masura)
+			um = Durata();
+
+		// verificam daca incape in masura
+		Durata scadere = masura - um;
+		if (e.get_durata() > masura - um)
+			return false;
+
+		// adaugam elementul
+		Element* n = new T(e);
+		elemente.push_back(n);
+
+		// daca e masura noua modificam vectorul de masuri
+		if (um == Durata())
+			masuri.push_back((int)elemente.size() - 1);
+
+		return true;
+	}
 
 	/**
 	 * Sterge element la finalul portativului
@@ -90,7 +112,7 @@ public:
 	 * @param pos pozitia la care se inlocuieste
 	 * @return true daca s-a adaugat cu succes, false pentru erori
 	*/
-	bool replace_element(Element e, int pos);
+	bool replace_element(Element &e, int pos);
 
 	/**
 	 * 
