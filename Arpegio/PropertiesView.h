@@ -30,11 +30,13 @@ protected:
 private:
 	CEdit m_titluEditCtrl;
 	CComboBox m_cheieComboBox;
+	CEdit m_MasIntrgCEdit;
 	CComboBox m_masuraComboBox;
 	CListBox m_NoteListCtrl;
 
 	int m_Cheie;
 	int m_Masura;
+	int m_MasIntregi;
 public:
 	CString m_titlu;
 	afx_msg void OnEnChangeEdittitlu();

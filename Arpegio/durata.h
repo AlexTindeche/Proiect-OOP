@@ -20,8 +20,9 @@ public:
 	 * Instantiere durata (perceputa ca fractie din nota intreaga)
 	 * @param numarator - numaratorul fractiei
 	 * @param numitor - numitorul fractiei
+	 * @param simplificare - daca sa fie simplificata fractia
 	*/
-	Durata(int numarator, int numitor);
+	Durata(int numarator, int numitor, bool simplificare = true);
 
 	/**
 	 * Initializare durata ca si fractiune din nota intreaga

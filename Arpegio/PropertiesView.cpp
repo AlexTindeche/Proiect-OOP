@@ -17,6 +17,7 @@ CPropertiesView::CPropertiesView()
 	, m_titlu(_T(""))
 	, m_Cheie(0)
 	, m_Masura(0)
+	, m_MasIntregi(0)
 {
 
 }
@@ -31,16 +32,19 @@ void CPropertiesView::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_EDITTITLU, m_titluEditCtrl);
 	DDX_Control(pDX, IDC_CHEIECOMBO, m_cheieComboBox);
+	DDX_Control(pDX, IDC_MAS_INTRG, m_MasIntrgCEdit);
 	DDX_Control(pDX, IDC_MASURA_COMBO, m_masuraComboBox);
 	DDX_Control(pDX, IDC_NOTELIST, m_NoteListCtrl);
 
 	DDX_Text(pDX, IDC_EDITTITLU, m_titlu);
 	DDX_CBIndex(pDX, IDC_CHEIECOMBO, m_Cheie);
+	DDX_Text(pDX, IDC_MAS_INTRG, m_MasIntregi);
 	DDX_CBIndex(pDX, IDC_MASURA_COMBO, m_Masura);
 }
 
 BEGIN_MESSAGE_MAP(CPropertiesView, CFormView)
 	ON_EN_CHANGE(IDC_EDITTITLU, &CPropertiesView::OnEnChangeEdittitlu)
+	ON_EN_CHANGE(IDC_MAS_INTRG, &CPropertiesView::OnCbnSelchangeMasuraCombo)
 	ON_CBN_SELCHANGE(IDC_CHEIECOMBO, &CPropertiesView::OnCbnSelchangeCheiecombo)
 	ON_CBN_SELCHANGE(IDC_MASURA_COMBO, &CPropertiesView::OnCbnSelchangeMasuraCombo)
 END_MESSAGE_MAP()
@@ -86,7 +90,8 @@ void CPropertiesView::OnCbnSelchangeMasuraCombo()
 {
 	UpdateData();
 	CArpegioDoc* pDoc = (CArpegioDoc*)GetDocument();
-	pDoc->UpdateMasura(Durate::GetDurata(m_Masura));
+	Durata d(m_MasIntregi, Durate::GetDurata(m_Masura).get_numitor(), false);
+	pDoc->UpdateMasura(d);
 }
 
 
@@ -96,7 +101,8 @@ void CPropertiesView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
 	m_titlu = pDoc->p.get_titlu().c_str();
 	m_Cheie = (int)pDoc->p.get_cheie();
-	m_Masura = Durate::GetPos(pDoc->p.get_masura());
+	m_MasIntregi = pDoc->p.get_masura().get_numarator();
+	m_Masura = Durate::GetPos(Durata(pDoc->p.get_masura().get_numitor()));
 	
 	PopulateNoteList();
 	UpdateData(false);

@@ -28,7 +28,7 @@ public:
 	 * @param m masura portativului
 	 * @param c cheia portativului
 	*/
-	Portativ(wstring t = L"", Durata m = Durate::NOTA_INTREAGA, Cheie c = Cheie::SOL);
+	Portativ(wstring t = L"", Durata m = Durata(4, 4, false), Cheie c = Cheie::SOL);
 
 	/**
 	 * Constructor de copiere

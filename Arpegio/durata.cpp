@@ -14,11 +14,12 @@ int cmmdc(int a, int b)
 	return a;
 }
 
-Durata::Durata(int numarator, int numitor) :
+Durata::Durata(int numarator, int numitor, bool s) :
 	numarator{ numarator },
 	numitor{ numitor }
 {
-	simplificare();
+	if(s)
+		simplificare();
 };
 
 Durata::Durata() :
