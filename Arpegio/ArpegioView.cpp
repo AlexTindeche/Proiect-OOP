@@ -13,6 +13,9 @@
 #include "ArpegioDoc.h"
 #include "ArpegioView.h"
 
+#include <array>
+using namespace std;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -20,9 +23,9 @@
 
 // CDocumentView
 
-IMPLEMENT_DYNCREATE(CDocumentView, CView)
+IMPLEMENT_DYNCREATE(CDocumentView, CScrollView)
 
-BEGIN_MESSAGE_MAP(CDocumentView, CView)
+BEGIN_MESSAGE_MAP(CDocumentView, CScrollView)
 	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
@@ -48,15 +51,91 @@ BOOL CDocumentView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CDocumentView drawing
 
+int SPACING_PORTATIV = 70;
+int SPACING_LINII = 10;
+int OFFSET_DOCUMENT = 25;
+int TITLE_HEIGHT = 80;
+
+void CDocumentView::OnInitialUpdate()
+{
+	CScrollView::OnInitialUpdate();
+	CArpegioDoc* pDoc = GetDocument();
+	CSize sizeTotal;
+	sizeTotal.cy = (pDoc->p.get_nr_elemente() * 70 + 40);
+	SetScrollSizes(MM_TEXT, sizeTotal);
+}
+
 void CDocumentView::OnDraw(CDC* pDC)
 {
 	CArpegioDoc* pDoc = GetDocument();
-	pDC->DrawText(CString(pDoc->p.get_titlu().c_str()), CRect(0, 0, 1000, 1000), 0);
-	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 
-	// TODO: add draw code for native data here
+	CRect rect;
+	GetClientRect(&rect);
+	
+	// titlu
+	CFont font;
+	font.CreateFont(
+		30,                       // nHeight
+		0,                        // nWidth
+		0,                        // nEscapement
+		0,                        // nOrientation
+		FW_BOLD,                // nWeight
+		FALSE,                    // bItalic
+		FALSE,                    // bUnderline
+		0,                        // cStrikeOut
+		ANSI_CHARSET,             // nCharSet
+		OUT_DEFAULT_PRECIS,       // nOutPrecision
+		CLIP_DEFAULT_PRECIS,      // nClipPrecision
+		DEFAULT_QUALITY,          // nQuality
+		DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily
+		_T("Arial"));            // lpszFacename
+
+	CFont* def_font = pDC->SelectObject(&font);
+	pDC->DrawText(CString(pDoc->p.get_titlu().c_str()), CRect(rect.left, rect.top + OFFSET_DOCUMENT, rect.right, rect.top + OFFSET_DOCUMENT + TITLE_HEIGHT), DT_CENTER);
+
+	// setup portative
+	for (int r = 0; r < pDoc->p.get_nr_elemente(); r++)
+	{
+		for (int l = 0; l < 5; l++)
+		{
+			int inaltime = r * SPACING_PORTATIV + l * SPACING_LINII + TITLE_HEIGHT;
+			CPoint pLine[] = { CPoint(rect.left + OFFSET_DOCUMENT, inaltime), CPoint(rect.right - OFFSET_DOCUMENT, inaltime) };
+			pDC->Polyline(pLine, 2);
+		}
+	}
+
+	CPen penDouble;
+	CPen* pOldPen;
+	CBrush brushFill;
+	CBrush* oldBrush;
+
+	brushFill.CreateSolidBrush(RGB(0, 0, 0));
+	penDouble.CreatePen(PS_SOLID | PS_COSMETIC, 2, RGB(0, 0, 0));
+	pOldPen = pDC->SelectObject(&penDouble);
+	oldBrush = pDC->SelectObject(&brushFill);
+
+	pDC->Ellipse(CRect(50, 4 * SPACING_LINII + TITLE_HEIGHT, 60, 5 * SPACING_LINII + TITLE_HEIGHT));
+	CPoint pLine[] = { CPoint(59, 5 * SPACING_LINII + TITLE_HEIGHT - 5), CPoint(59, 1 * SPACING_LINII + TITLE_HEIGHT) };
+
+	/*CPoint bzr[] = { CPoint(CPoint(59, 1 * SPACING_LINII + TITLE_HEIGHT)), CPoint(70, 2 * SPACING_LINII + TITLE_HEIGHT), CPoint(65, 3 * SPACING_LINII + TITLE_HEIGHT), CPoint(65, 1 * SPACING_LINII + TITLE_HEIGHT) };*/
+	CPoint bzr[] = {
+		CPoint(59, 1 * SPACING_LINII + TITLE_HEIGHT),
+		CPoint(65, 1 * SPACING_LINII + TITLE_HEIGHT + 10),
+		CPoint(70, 2 * SPACING_LINII + TITLE_HEIGHT),
+		CPoint(66, 3 * SPACING_LINII + TITLE_HEIGHT + 3)
+	};
+
+	CPoint bzr2[] = {
+		CPoint(59, 1 * SPACING_LINII + TITLE_HEIGHT + 10),
+		CPoint(65, 1 * SPACING_LINII + TITLE_HEIGHT + 10 + 10),
+		CPoint(70, 2 * SPACING_LINII + TITLE_HEIGHT + 10),
+		CPoint(66, 3 * SPACING_LINII + TITLE_HEIGHT + 2 + 10)
+	};
+	pDC->Polyline(pLine, 2);
+	pDC->PolyBezier(bzr, 4);
+	pDC->PolyBezier(bzr2, 4);
 }
 
 
@@ -103,4 +182,15 @@ void CDocumentView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	//}
 	Invalidate();
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+
+void CDocumentView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
+{
+	CScrollView::OnUpdate(pSender, lHint, pHint);
+	
+	CArpegioDoc* pDoc = GetDocument();
+	CSize sizeTotal;
+	sizeTotal.cy = (pDoc->p.get_nr_elemente() * SPACING_PORTATIV + TITLE_HEIGHT);
+	SetScrollSizes(MM_TEXT, sizeTotal);
 }

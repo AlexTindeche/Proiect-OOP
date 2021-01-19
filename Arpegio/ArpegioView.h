@@ -5,7 +5,7 @@
 #pragma once
 
 
-class CDocumentView : public CView
+class CDocumentView : public CScrollView
 {
 protected: // create from serialization only
 	CDocumentView() noexcept;
@@ -21,6 +21,7 @@ public:
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	virtual void OnInitialUpdate(); // first time after construct
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
 
@@ -39,6 +40,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 
 #ifndef _DEBUG  // debug version in ArpegioView.cpp
