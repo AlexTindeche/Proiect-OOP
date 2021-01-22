@@ -40,6 +40,8 @@ public:
 	void UpdateMasura(Durata masura);
 	void UpdateCheie(Cheie cheie);
 	void UpdateTitlu(CString titlu);
+	void SetSelected(int i);
+	int GetSelected();
 
 protected:
 
@@ -52,7 +54,12 @@ protected:
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
 
+private:
+	int sel;
+
 public:
 	Portativ p;
 	afx_msg void OnNotaAdaugare();
+	afx_msg void OnNotaStergere();
+	void OnNotaModificare(int i_e, bool remove = false);
 };

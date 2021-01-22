@@ -17,7 +17,7 @@ AddNotaDlg::AddNotaDlg(bool add, CWnd* pParent)
 	m_TipElem{ 0 },
 	m_DurElem{ 0 },
 	m_InaltimeNota{ 0 },
-	m_OctavaNota{ 0 }
+	m_OctavaNota{ OCTAVA_DEF }
 {
 
 }
@@ -106,6 +106,9 @@ BOOL AddNotaDlg::OnInitDialog()
 	// titlu dialog in functie de operatiune: adaugare / modificare
 	SetWindowTextW(m_isAddDlg ? L"Adaugă element" : L"Modifică element");
 
+	// permite selectie durata doar pe adaugare
+	m_DurElemComboBox.EnableWindow(m_isAddDlg);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 }
 
@@ -119,8 +122,8 @@ void AddNotaDlg::OnCbnSelchangeTipelemcombo()
 	{
 		m_InaltimeNotaComboBox.SetCurSel(0);
 		m_OctavaSliderCtrl.SetPos(0);
-		UpdateData();
 	}
+	UpdateData();
 
 	// disable la controale atunci cand tipul este pauza
 	m_InaltimeNotaComboBox.EnableWindow(m_TipElem == (int)TipElement::NOTA);
@@ -138,6 +141,9 @@ void AddNotaDlg::SetupTipCtrl()
 
 	// prima optiune selectata implicit
 	m_TipElemComboBox.SetCurSel(m_TipElem);
+
+	m_InaltimeNotaComboBox.EnableWindow(m_TipElem == (int)TipElement::NOTA);
+	m_OctavaSliderCtrl.EnableWindow(m_TipElem == (int)TipElement::NOTA);
 }
 
 void AddNotaDlg::SetupDurataCtrl()

@@ -3,6 +3,8 @@
 
 #include "pch.h"
 #include "Arpegio.h"
+
+#include "ArpegioDoc.h"
 #include "PropertiesView.h"
 
 #include "durate.h"
@@ -12,12 +14,23 @@
 
 IMPLEMENT_DYNCREATE(CPropertiesView, CFormView)
 
+BEGIN_MESSAGE_MAP(CPropertiesView, CFormView)
+	ON_EN_CHANGE(IDC_EDITTITLU, &CPropertiesView::OnEnChangeEdittitlu)
+	ON_EN_CHANGE(IDC_MAS_INTRG, &CPropertiesView::OnCbnSelchangeMasuraCombo)
+	ON_CBN_SELCHANGE(IDC_CHEIECOMBO, &CPropertiesView::OnCbnSelchangeCheiecombo)
+	ON_CBN_SELCHANGE(IDC_MASURA_COMBO, &CPropertiesView::OnCbnSelchangeMasuraCombo)
+	ON_LBN_SELCHANGE(IDC_NOTELIST, &CPropertiesView::OnLbnSelchangeNotelist)
+END_MESSAGE_MAP()
+
+// CPropertiesView construction/destruction
+
 CPropertiesView::CPropertiesView()
 	: CFormView(IDD_CPropertiesView)
-	, m_titlu(_T(""))
+	, m_titlu(L"")
 	, m_Cheie(0)
 	, m_Masura(0)
 	, m_MasIntregi(0)
+	, m_NotaSel(0)
 {
 
 }
@@ -40,14 +53,8 @@ void CPropertiesView::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_CHEIECOMBO, m_Cheie);
 	DDX_Text(pDX, IDC_MAS_INTRG, m_MasIntregi);
 	DDX_CBIndex(pDX, IDC_MASURA_COMBO, m_Masura);
+	DDX_LBIndex(pDX, IDC_NOTELIST, m_NotaSel);
 }
-
-BEGIN_MESSAGE_MAP(CPropertiesView, CFormView)
-	ON_EN_CHANGE(IDC_EDITTITLU, &CPropertiesView::OnEnChangeEdittitlu)
-	ON_EN_CHANGE(IDC_MAS_INTRG, &CPropertiesView::OnCbnSelchangeMasuraCombo)
-	ON_CBN_SELCHANGE(IDC_CHEIECOMBO, &CPropertiesView::OnCbnSelchangeCheiecombo)
-	ON_CBN_SELCHANGE(IDC_MASURA_COMBO, &CPropertiesView::OnCbnSelchangeMasuraCombo)
-END_MESSAGE_MAP()
 
 
 // CPropertiesView diagnostics
@@ -64,6 +71,12 @@ void CPropertiesView::Dump(CDumpContext& dc) const
 	CFormView::Dump(dc);
 }
 #endif
+
+CArpegioDoc* CPropertiesView::GetDocument() const // non-debug version is inline
+{
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CArpegioDoc)));
+	return (CArpegioDoc*)m_pDocument;
+}
 #endif //_DEBUG
 
 
@@ -73,7 +86,8 @@ void CPropertiesView::Dump(CDumpContext& dc) const
 void CPropertiesView::OnEnChangeEdittitlu()
 {
 	UpdateData();
-	CArpegioDoc* pDoc = (CArpegioDoc*)GetDocument();
+
+	CArpegioDoc* pDoc = GetDocument();
 	pDoc->UpdateTitlu(m_titlu);
 }
 
@@ -81,7 +95,8 @@ void CPropertiesView::OnEnChangeEdittitlu()
 void CPropertiesView::OnCbnSelchangeCheiecombo()
 {
 	UpdateData();
-	CArpegioDoc* pDoc = (CArpegioDoc*)GetDocument();
+
+	CArpegioDoc* pDoc = GetDocument();
 	pDoc->UpdateCheie((Cheie)m_Cheie);
 }
 
@@ -89,22 +104,36 @@ void CPropertiesView::OnCbnSelchangeCheiecombo()
 void CPropertiesView::OnCbnSelchangeMasuraCombo()
 {
 	UpdateData();
-	CArpegioDoc* pDoc = (CArpegioDoc*)GetDocument();
+
+	CArpegioDoc* pDoc = GetDocument();
 	Durata d(m_MasIntregi, Durate::GetDurata(m_Masura).get_numitor(), false);
 	pDoc->UpdateMasura(d);
 }
 
 
+void CPropertiesView::OnLbnSelchangeNotelist()
+{
+	UpdateData();
+
+	CArpegioDoc* pDoc = GetDocument();
+	pDoc->SetSelected(m_NotaSel);
+}
+
+
 void CPropertiesView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	CArpegioDoc* pDoc = (CArpegioDoc*)GetDocument();
+	// get document
+	CArpegioDoc* pDoc = GetDocument();
 
+	// update data
 	m_titlu = pDoc->p.get_titlu().c_str();
 	m_Cheie = (int)pDoc->p.get_cheie();
 	m_MasIntregi = pDoc->p.get_masura().get_numarator();
 	m_Masura = Durate::GetPos(Durata(pDoc->p.get_masura().get_numitor()));
-	
+	m_NotaSel = pDoc->GetSelected();
 	PopulateNoteList();
+
+	// force DDX
 	UpdateData(false);
 }
 
@@ -112,14 +141,12 @@ void CPropertiesView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 void CPropertiesView::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
-
-	// TODO: Add your specialized code here and/or call the base class
 }
 
 void CPropertiesView::PopulateNoteList()
 {
 	// get document
-	CArpegioDoc* pDoc = (CArpegioDoc*)GetDocument();
+	CArpegioDoc* pDoc = GetDocument();
 
 	// reset contents
 	m_NoteListCtrl.ResetContent();

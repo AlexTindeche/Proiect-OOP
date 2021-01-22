@@ -25,12 +25,14 @@ IMPLEMENT_DYNCREATE(CArpegioDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CArpegioDoc, CDocument)
 	ON_COMMAND(ID_NOTA_ADAUGARE, &CArpegioDoc::OnNotaAdaugare)
+	ON_COMMAND(ID_NOTA_STERGERE, &CArpegioDoc::OnNotaStergere)
 END_MESSAGE_MAP()
 
 
 // CArpegioDoc construction/destruction
 
-CArpegioDoc::CArpegioDoc() noexcept
+CArpegioDoc::CArpegioDoc() noexcept :
+	sel{ -1 }
 {
 	// TODO: add one-time construction code here
 
@@ -48,6 +50,7 @@ BOOL CArpegioDoc::OnNewDocument()
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
 	p = Portativ(L"Partitură");
+	sel = -1;
 
 	return TRUE;
 }
@@ -74,6 +77,19 @@ void CArpegioDoc::UpdateMasura(Durata masura)
 	SetModifiedFlag();
 }
 
+void CArpegioDoc::SetSelected(int i)
+{
+	if (i < 0 || i >= p.get_nr_elemente())
+		sel = -1;
+
+	sel = i;
+	UpdateAllViews(NULL, 0, NULL);
+}
+
+int CArpegioDoc::GetSelected()
+{
+	return sel;
+}
 
 
 // CArpegioDoc serialization
@@ -103,7 +119,7 @@ void CArpegioDoc::Serialize(CArchive& ar)
 		int masura_numarator, masura_numitor, cheie, nr_elem;
 		
 		ar >> titlu >> masura_numarator >> masura_numitor >> cheie;
-		p = Portativ(titlu.GetString(), Durata(masura_numarator, masura_numitor), (Cheie)cheie);
+		p = Portativ(titlu.GetString(), Durata(masura_numarator, masura_numitor, false), (Cheie)cheie);
 
 		ar >> nr_elem;
 		for (int i = 0; i < nr_elem; i++)
@@ -206,6 +222,38 @@ void CArpegioDoc::OnNotaAdaugare()
 			p.add_element(d.GetNota());
 		else if (d.GetTipElement() == TipElement::PAUZA)
 			p.add_element(d.GetPauza());
+	}
+	UpdateAllViews(NULL, 0, NULL);
+	SetModifiedFlag();
+}
+
+
+void CArpegioDoc::OnNotaStergere()
+{
+	p.remove_element();
+	UpdateAllViews(NULL, 0, NULL);
+	SetModifiedFlag();
+}
+
+void CArpegioDoc::OnNotaModificare(int i_e, bool remove)
+{
+	AddNotaDlg d(false);
+
+	Element* e = p.get_element(i_e);
+	if (e == NULL)
+		return;
+
+	if (e->get_tip_element() == TipElement::NOTA)
+		d.SetElement(*(Nota*)e);
+	else if(e->get_tip_element() == TipElement::PAUZA)
+		d.SetElement(*(Pauza*)e);
+
+	if (d.DoModal() == IDOK)
+	{
+		if (d.GetTipElement() == TipElement::NOTA)
+			p.replace_element(d.GetNota(), i_e);
+		else if (d.GetTipElement() == TipElement::PAUZA)
+			p.replace_element(d.GetPauza(), i_e);
 	}
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
