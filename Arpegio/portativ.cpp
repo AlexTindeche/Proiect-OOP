@@ -146,6 +146,22 @@ Element* Portativ::get_element(int pos)
 	return elemente[pos];
 }
 
+vector<Element*> Portativ::get_elem_masura(int m)
+{
+	vector<Element*> res;
+	int sz = (int) masuri.size();
+	int stop = (int) elemente.size();
+
+	if (m < sz - 1)
+		stop = masuri[(size_t)m + 1];
+
+	if (m >= 0 || m < sz)
+		for (int i = masuri[m]; i < stop; i++)
+			res.push_back(elemente[i]);
+
+	return res;
+}
+
 void Portativ::set_titlu(wstring t)
 {
 	titlu = t;
@@ -185,6 +201,9 @@ bool Portativ::add_element(T &e)
 
 void Portativ::remove_element()
 {
+	if (elemente.empty())
+		return;
+
 	Element* e = elemente[elemente.size() - 1];
 	// Element* e = elemente.back() - ?! verificat daca merge asa mai simplu
 	Durata um = get_ultima_masura();
@@ -197,24 +216,24 @@ void Portativ::remove_element()
 	elemente.pop_back();
 }
 
-bool Portativ::replace_element(Element &e, int pos)
-{
-	// verificam daca pozitia e valida si
-	// verificam daca elementul dat are aceeasi durata ca cel inlocuit
-	if (pos < 0 || pos >= elemente.size() || 
-		elemente[pos]->get_durata() != e.get_durata())
-		return false;
-
-	// elementul nou si cel vechi
-	Element* vechi = elemente[pos];
-	Element* nou = new Element(e);
-
-	// stergem elementul vechi si il punem pe cel nou
-	elemente[pos] = nou;
-	delete vechi;
-
-	return true;
-}
+//bool Portativ::replace_element(Element &e, int pos)
+//{
+//	// verificam daca pozitia e valida si
+//	// verificam daca elementul dat are aceeasi durata ca cel inlocuit
+//	if (pos < 0 || pos >= elemente.size() || 
+//		elemente[pos]->get_durata() != e.get_durata())
+//		return false;
+//
+//	// elementul nou si cel vechi
+//	Element* vechi = elemente[pos];
+//	Element* nou = new Element(e);
+//
+//	// stergem elementul vechi si il punem pe cel nou
+//	elemente[pos] = nou;
+//	delete vechi;
+//
+//	return true;
+//}
 
 void Portativ::afisare()
 {
@@ -225,7 +244,7 @@ void Portativ::afisare()
 		cout << "-- Masura " << i + 1 << " --\n";
 		int stop = elem_len;
 		if (i < mas_len - 1)
-			stop = masuri[i + 1];
+			stop = masuri[(size_t)i + 1];
 
 		for (int j = masuri[i]; j < stop; j++) {
 			cout << elemente[j]->get_durata() << " ";

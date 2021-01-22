@@ -224,8 +224,13 @@
     <ResourceCompile Include="Arpegio.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\cheia-fa.bmp" />
+    <Image Include="res\cheia-sol.bmp" />
     <Image Include="res\Arpegio.ico" />
     <Image Include="res\ArpegioDoc.ico" />
+    <Image Include="res\pauza-optime.bmp" />
+    <Image Include="res\pauza-patrime.bmp" />
+    <Image Include="res\pauza-saisprezecime.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

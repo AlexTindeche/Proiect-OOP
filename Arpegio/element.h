@@ -23,6 +23,10 @@ enum class Inaltime {
 
 const vector<wstring> nume_inaltimi = { L"Do", L"Re", L"Mi", L"Fa", L"Sol", L"La", L"Si" };
 
+constexpr int OCTAVA_MIN = 2;
+constexpr int OCTAVA_MAX = 8;
+constexpr int OCTAVA_DEF = 4;
+
 class Element
 {
 	TipElement tip;

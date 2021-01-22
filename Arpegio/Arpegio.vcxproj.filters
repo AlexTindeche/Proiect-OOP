@@ -129,5 +129,20 @@
     <Image Include="res\Arpegio.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\cheia-fa.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cheia-sol.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pauza-optime.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pauza-patrime.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pauza-saisprezecime.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

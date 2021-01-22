@@ -9,9 +9,6 @@ using namespace std;
 
 enum class Cheie {SOL, FA};
 
-constexpr int OCTAVA_MIN = -3;
-constexpr int OCTAVA_MAX = 3;
-
 class Portativ
 {
 	Cheie cheie;
@@ -115,6 +112,13 @@ public:
 	void set_cheie(Cheie c);
 
 	/**
+	 * Elementele dintr-o masura
+	 * @param m masura de returnat
+	 * @return 
+	*/
+	vector<Element*> get_elem_masura(int m);
+
+	/**
 	 * Adauga element la finalul portativului
 	 * @param e elementul de adaugat
 	 * @return true daca s-a adaugat cu succes, false pentru erori
@@ -144,17 +148,31 @@ public:
 	}
 
 	/**
-	 * Sterge element la finalul portativului
-	*/
-	void remove_element();
-
-	/**
 	 * Inlocuire element de la pozitia data cu un alt element
 	 * @param e elementul de inlocuit
 	 * @param pos pozitia la care se inlocuieste
 	 * @return true daca s-a adaugat cu succes, false pentru erori
 	*/
-	bool replace_element(Element &e, int pos);
+	template<typename T>
+	bool replace_element(T& e, int pos)
+	{
+		// verificam daca pozitia e valida si
+		// verificam daca elementul dat are aceeasi durata ca cel inlocuit
+		if (pos < 0 || pos >= elemente.size() || elemente[pos]->get_durata() != e.get_durata())
+			return false;
+
+		// stergem elementul vechi si il punem pe cel nou
+		delete elemente[pos];
+		elemente[pos] = new T(e);
+
+		return true;
+	}
+
+	/**
+	 * Sterge element la finalul portativului
+	*/
+	void remove_element();
+
 
 	/**
 	 * 
