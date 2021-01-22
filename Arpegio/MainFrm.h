@@ -44,6 +44,7 @@ protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt);
 };
 
 

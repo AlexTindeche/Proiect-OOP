@@ -20,6 +20,7 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
+	ON_WM_MOUSEHWHEEL()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -108,4 +109,15 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 		m_wndSplitter.SetColumnInfo(1, rect.Width() / 5, 10);
 		m_wndSplitter.RecalcLayout();
 	}
+}
+
+
+void CMainFrame::OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// This feature requires Windows Vista or greater.
+	// The symbol _WIN32_WINNT must be >= 0x0600.
+	// TODO: Add your message handler code here and/or call default
+
+	m_wndSplitter.SetScrollPos(0, 2);
+	CFrameWnd::OnMouseHWheel(nFlags, zDelta, pt);
 }
