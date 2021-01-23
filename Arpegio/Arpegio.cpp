@@ -5,10 +5,11 @@
 #include "pch.h"
 #include "framework.h"
 #include "afxwinappex.h"
-#include "afxdialogex.h"
-#include "Arpegio.h"
-#include "MainFrm.h"
 
+#include "Arpegio.h"
+
+#include "AppAboutDlg.h"
+#include "MainFrm.h"
 #include "ArpegioDoc.h"
 #include "DocumentView.h"
 
@@ -87,8 +88,6 @@ BOOL CArpegioApp::InitInstance()
 	// of your final executable, you should remove from the following
 	// the specific initialization routines you do not need
 	// Change the registry key under which our settings are stored
-	// TODO: You should modify this string to be something appropriate
-	// such as the name of your company or organization
 	SetRegistryKey(_T("LTB Software Division"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
@@ -130,49 +129,12 @@ BOOL CArpegioApp::InitInstance()
 	return TRUE;
 }
 
+
 // CArpegioApp message handlers
-
-
-// CAboutDlg dialog used for App About
-
-class CAboutDlg : public CDialogEx
-{
-public:
-	CAboutDlg() noexcept;
-
-// Dialog Data
-#ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_ABOUTBOX };
-#endif
-
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
-// Implementation
-protected:
-	DECLARE_MESSAGE_MAP()
-};
-
-CAboutDlg::CAboutDlg() noexcept : CDialogEx(IDD_ABOUTBOX)
-{
-}
-
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialogEx::DoDataExchange(pDX);
-}
-
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-END_MESSAGE_MAP()
 
 // App command to run the dialog
 void CArpegioApp::OnAppAbout()
 {
-	CAboutDlg aboutDlg;
+	CAppAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
-
-// CArpegioApp message handlers
-
-
-

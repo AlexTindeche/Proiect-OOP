@@ -75,6 +75,9 @@
     <ClInclude Include="DocumentView.h">
       <Filter>Header Files\views</Filter>
     </ClInclude>
+    <ClInclude Include="AppAboutDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arpegio.cpp">
@@ -109,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="DocumentView.cpp">
       <Filter>Source Files\views</Filter>
+    </ClCompile>
+    <ClCompile Include="AppAboutDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

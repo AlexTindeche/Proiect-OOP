@@ -2,7 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by Arpegio.rc
 //
-#define IDD_ABOUTBOX                    100
+#define IDD_AppAboutBox                 100
 #define IDR_MAINFRAME                   128
 #define IDR_ArpegioTYPE                 130
 #define IDD_CPropertiesView             310
