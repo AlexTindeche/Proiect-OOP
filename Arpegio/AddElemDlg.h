@@ -3,19 +3,19 @@
 
 #include "portativ.h"
 
-// AddNotaDlg dialog
+// AddElemDlg dialog
 
-class AddNotaDlg : public CDialog
+class AddElemDlg : public CDialog
 {
-	DECLARE_DYNAMIC(AddNotaDlg)
+	DECLARE_DYNAMIC(AddElemDlg)
 
 public:
-	AddNotaDlg(bool add = true, CWnd* pParent = nullptr);   // standard constructor
-	virtual ~AddNotaDlg();
+	AddElemDlg(bool add = true, CWnd* pParent = nullptr);   // standard constructor
+	virtual ~AddElemDlg();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_AddNotaDlg };
+	enum { IDD = IDD_AddElemDlg };
 #endif
 
 // Data exchange

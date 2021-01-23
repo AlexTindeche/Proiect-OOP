@@ -183,7 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AddNotaDlg.h" />
+    <ClInclude Include="AddElemDlg.h" />
     <ClInclude Include="AppAboutDlg.h" />
     <ClInclude Include="Arpegio.h" />
     <ClInclude Include="ArpegioDoc.h" />
@@ -201,7 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppAboutDlg.cpp" />
-    <ClCompile Include="AddNotaDlg.cpp" />
+    <ClCompile Include="AddElemDlg.cpp" />
     <ClCompile Include="Arpegio.cpp" />
     <ClCompile Include="ArpegioDoc.cpp" />
     <ClCompile Include="DocumentView.cpp" />

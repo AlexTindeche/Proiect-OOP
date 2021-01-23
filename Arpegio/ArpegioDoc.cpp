@@ -11,7 +11,7 @@
 #endif
 
 #include "ArpegioDoc.h"
-#include "AddNotaDlg.h"
+#include "AddElemDlg.h"
 
 #include <propkey.h>
 
@@ -224,7 +224,7 @@ void CArpegioDoc::Dump(CDumpContext& dc) const
 void CArpegioDoc::OnElementAdaugare()
 {
 	// run dialog
-	AddNotaDlg d;
+	AddElemDlg d;
 	if (d.DoModal() == IDCANCEL)
 		return;
 
@@ -263,7 +263,7 @@ void CArpegioDoc::OnElementModificare()
 		return;
 
 	// initialize dialog
-	AddNotaDlg d(false);
+	AddElemDlg d(false);
 
 	if (e->get_tip_element() == TipElement::NOTA)
 		d.SetElement(*(Nota*)e);

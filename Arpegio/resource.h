@@ -6,7 +6,7 @@
 #define IDR_MAINFRAME                   128
 #define IDR_ArpegioTYPE                 130
 #define IDD_CPropertiesView             310
-#define IDD_AddNotaDlg                  311
+#define IDD_AddElemDlg                  311
 #define IDB_CHEIA_SOL                   318
 #define IDB_CHEIA_FA                    320
 #define IDB_PAUZA_OPTIME                321

@@ -1,18 +1,18 @@
-﻿// AddNotaDlg.cpp : implementation file
+﻿// AddElemDlg.cpp : implementation file
 //
 
 #include "pch.h"
 #include "afxdialogex.h"
 
 #include "Arpegio.h"
-#include "AddNotaDlg.h"
+#include "AddElemDlg.h"
 
-// AddNotaDlg dialog
+// AddElemDlg dialog
 
-IMPLEMENT_DYNAMIC(AddNotaDlg, CDialog)
+IMPLEMENT_DYNAMIC(AddElemDlg, CDialog)
 
-AddNotaDlg::AddNotaDlg(bool add, CWnd* pParent)
-	: CDialog(IDD_AddNotaDlg, pParent),
+AddElemDlg::AddElemDlg(bool add, CWnd* pParent)
+	: CDialog(IDD_AddElemDlg, pParent),
 	m_isAddDlg{ add },
 	m_TipElem{ 0 },
 	m_DurElem{ 0 },
@@ -22,11 +22,11 @@ AddNotaDlg::AddNotaDlg(bool add, CWnd* pParent)
 
 }
 
-AddNotaDlg::~AddNotaDlg()
+AddElemDlg::~AddElemDlg()
 {
 }
 
-void AddNotaDlg::DoDataExchange(CDataExchange* pDX)
+void AddElemDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 
@@ -47,36 +47,36 @@ void AddNotaDlg::DoDataExchange(CDataExchange* pDX)
 // Data operations
 
 // set initial data
-void AddNotaDlg::SetElement(Element e)
+void AddElemDlg::SetElement(Element e)
 {
 	m_TipElem = (int)e.get_tip_element();
 	m_DurElem = Durate::GetPos(e.get_durata());
 }
 
-void AddNotaDlg::SetElement(Nota n)
+void AddElemDlg::SetElement(Nota n)
 {
 	SetElement((Element)n);
 	m_InaltimeNota = (int)n.get_inaltime();
 	m_OctavaNota = n.get_octava();
 }
 
-void AddNotaDlg::SetElement(Pauza p)
+void AddElemDlg::SetElement(Pauza p)
 {
 	SetElement((Element)p);
 }
 
 // get dialog data
-TipElement AddNotaDlg::GetTipElement()
+TipElement AddElemDlg::GetTipElement()
 {
 	return (TipElement) m_TipElem;
 }
 
-Nota AddNotaDlg::GetNota()
+Nota AddElemDlg::GetNota()
 {
 	return Nota(Durate::GetDurata(m_DurElem), (Inaltime)m_InaltimeNota, m_OctavaNota);
 }
 
-Pauza AddNotaDlg::GetPauza()
+Pauza AddElemDlg::GetPauza()
 {
 	return Pauza(Durate::GetDurata(m_DurElem));
 }
@@ -85,15 +85,15 @@ Pauza AddNotaDlg::GetPauza()
 // Message map
 
 
-BEGIN_MESSAGE_MAP(AddNotaDlg, CDialog)
-	ON_CBN_SELCHANGE(IDC_TIPELEMCOMBO, &AddNotaDlg::OnCbnSelchangeTipelemcombo)
+BEGIN_MESSAGE_MAP(AddElemDlg, CDialog)
+	ON_CBN_SELCHANGE(IDC_TIPELEMCOMBO, &AddElemDlg::OnCbnSelchangeTipelemcombo)
 END_MESSAGE_MAP()
 
 
 // AddNotaDlg message handlers
 
 
-BOOL AddNotaDlg::OnInitDialog()
+BOOL AddElemDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
@@ -112,7 +112,7 @@ BOOL AddNotaDlg::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 }
 
-void AddNotaDlg::OnCbnSelchangeTipelemcombo()
+void AddElemDlg::OnCbnSelchangeTipelemcombo()
 {
 	// selectie curenta
 	int curSel = m_TipElemComboBox.GetCurSel();
@@ -133,7 +133,7 @@ void AddNotaDlg::OnCbnSelchangeTipelemcombo()
 
 // Helper functions
 
-void AddNotaDlg::SetupTipCtrl()
+void AddElemDlg::SetupTipCtrl()
 {
 	// inserare optiuni
 	m_TipElemComboBox.AddString(L"Notă");
@@ -146,7 +146,7 @@ void AddNotaDlg::SetupTipCtrl()
 	OnCbnSelchangeTipelemcombo();
 }
 
-void AddNotaDlg::SetupDurataCtrl()
+void AddElemDlg::SetupDurataCtrl()
 {
 	// nume durate luate din vector
 	for (wstring d : Durate::nume_durate)
@@ -158,7 +158,7 @@ void AddNotaDlg::SetupDurataCtrl()
 	m_DurElemComboBox.SetCurSel(m_DurElem);
 }
 
-void AddNotaDlg::SetupInaltimeCtrl()
+void AddElemDlg::SetupInaltimeCtrl()
 {
 	// nume inaltimi din vector
 	for (wstring i : nume_inaltimi)
@@ -170,7 +170,7 @@ void AddNotaDlg::SetupInaltimeCtrl()
 	m_InaltimeNotaComboBox.SetCurSel(m_InaltimeNota);
 }
 
-void AddNotaDlg::SetupOctavaCtrl()
+void AddElemDlg::SetupOctavaCtrl()
 {
 	// setarea rangului de selectie octava
 	m_OctavaSliderCtrl.SetRangeMin(OCTAVA_MIN, TRUE);

@@ -63,9 +63,6 @@
     <ClInclude Include="durata.h">
       <Filter>Header Files\data</Filter>
     </ClInclude>
-    <ClInclude Include="AddNotaDlg.h">
-      <Filter>Header Files\dialogs</Filter>
-    </ClInclude>
     <ClInclude Include="PropertiesView.h">
       <Filter>Header Files\views</Filter>
     </ClInclude>
@@ -76,6 +73,9 @@
       <Filter>Header Files\views</Filter>
     </ClInclude>
     <ClInclude Include="AppAboutDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="AddElemDlg.h">
       <Filter>Header Files\dialogs</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,9 +101,6 @@
     <ClCompile Include="portativ.cpp">
       <Filter>Source Files\data</Filter>
     </ClCompile>
-    <ClCompile Include="AddNotaDlg.cpp">
-      <Filter>Source Files\dialogs</Filter>
-    </ClCompile>
     <ClCompile Include="PropertiesView.cpp">
       <Filter>Source Files\views</Filter>
     </ClCompile>
@@ -114,6 +111,9 @@
       <Filter>Source Files\views</Filter>
     </ClCompile>
     <ClCompile Include="AppAboutDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="AddElemDlg.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
   </ItemGroup>
