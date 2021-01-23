@@ -29,15 +29,17 @@
 #define IDC_OCTAVASLIDER                1007
 #define IDC_TIPELEMCOMBO                1008
 #define IDC_MAS_INTRG                   1009
-#define ID_NOTA_ADAUGARE                32771
-#define ID_NOTA_STERGERE                32772
+#define ID_ELEMENT_ADAUGARE             32778
+#define ID_ELEMENT_STERGERE             32779
+#define ID_ELEMENT_MODIFICARE           32780
+#define ID_ELEMENT_REM_SEL              32782
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        325
-#define _APS_NEXT_COMMAND_VALUE         32778
+#define _APS_NEXT_RESOURCE_VALUE        326
+#define _APS_NEXT_COMMAND_VALUE         32787
 #define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           312
 #endif

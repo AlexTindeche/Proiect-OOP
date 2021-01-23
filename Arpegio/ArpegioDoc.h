@@ -59,7 +59,10 @@ private:
 
 public:
 	Portativ p;
-	afx_msg void OnNotaAdaugare();
-	afx_msg void OnNotaStergere();
-	void OnNotaModificare(int i_e, bool remove = false);
+	afx_msg void OnElementAdaugare();
+	afx_msg void OnElementStergere();
+	afx_msg void OnElementModificare();
+	afx_msg void OnElementRemSel();
+
+	void ModNotaSel(bool lower = false);
 };

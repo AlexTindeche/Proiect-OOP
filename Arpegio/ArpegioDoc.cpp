@@ -1,4 +1,4 @@
-﻿
+
 // ArpegioDoc.cpp : implementation of the CArpegioDoc class
 //
 
@@ -24,8 +24,10 @@
 IMPLEMENT_DYNCREATE(CArpegioDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CArpegioDoc, CDocument)
-	ON_COMMAND(ID_NOTA_ADAUGARE, &CArpegioDoc::OnNotaAdaugare)
-	ON_COMMAND(ID_NOTA_STERGERE, &CArpegioDoc::OnNotaStergere)
+	ON_COMMAND(ID_ELEMENT_ADAUGARE, &CArpegioDoc::OnElementAdaugare)
+	ON_COMMAND(ID_ELEMENT_STERGERE, &CArpegioDoc::OnElementStergere)
+	ON_COMMAND(ID_ELEMENT_MODIFICARE, &CArpegioDoc::OnElementModificare)
+	ON_COMMAND(ID_ELEMENT_REM_SEL, &CArpegioDoc::OnElementRemSel)
 END_MESSAGE_MAP()
 
 
@@ -34,7 +36,6 @@ END_MESSAGE_MAP()
 CArpegioDoc::CArpegioDoc() noexcept :
 	sel{ -1 }
 {
-	// TODO: add one-time construction code here
 
 }
 
@@ -47,9 +48,8 @@ BOOL CArpegioDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-	// TODO: add reinitialization code here
-	// (SDI documents will reuse this document)
-	p = Portativ(L"Partitură");
+	// New document initialization
+	p = Portativ(L"Titlu");
 	sel = -1;
 
 	return TRUE;
@@ -79,8 +79,8 @@ void CArpegioDoc::UpdateMasura(Durata masura)
 
 void CArpegioDoc::SetSelected(int i)
 {
-	if (i < 0 || i >= p.get_nr_elemente())
-		sel = -1;
+	if (i < -1 || i >= p.get_nr_elemente())
+		return;
 
 	sel = i;
 	UpdateAllViews(NULL, 0, NULL);
@@ -213,48 +213,121 @@ void CArpegioDoc::Dump(CDumpContext& dc) const
 // CArpegioDoc commands
 
 
-void CArpegioDoc::OnNotaAdaugare()
+void CArpegioDoc::OnElementAdaugare()
 {
+	// run dialog
 	AddNotaDlg d;
-	if (d.DoModal() == IDOK)
-	{
+	if (d.DoModal() == IDCANCEL)
+		return;
+
+	// add selected element
+	bool success = false;
 		if (d.GetTipElement() == TipElement::NOTA)
-			p.add_element(d.GetNota());
+		success = p.add_element(d.GetNota());
 		else if (d.GetTipElement() == TipElement::PAUZA)
-			p.add_element(d.GetPauza());
-	}
+		success = p.add_element(d.GetPauza());
+
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
 }
 
-
-void CArpegioDoc::OnNotaStergere()
+void CArpegioDoc::OnElementStergere()
 {
 	p.remove_element();
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
 }
 
-void CArpegioDoc::OnNotaModificare(int i_e, bool remove)
+void CArpegioDoc::OnElementModificare()
 {
-	AddNotaDlg d(false);
+	// no element selected
+	if (sel == -1)
+		return;
 
-	Element* e = p.get_element(i_e);
+	// get element
+	Element* e = p.get_element(sel);
 	if (e == NULL)
 		return;
+
+	// initialize dialog
+	AddNotaDlg d(false);
 
 	if (e->get_tip_element() == TipElement::NOTA)
 		d.SetElement(*(Nota*)e);
 	else if(e->get_tip_element() == TipElement::PAUZA)
 		d.SetElement(*(Pauza*)e);
 
-	if (d.DoModal() == IDOK)
-	{
+	// do not continue if dialog canceled
+	if (d.DoModal() == IDCANCEL)
+		return;
+
+	// get updated element data from dialog
 		if (d.GetTipElement() == TipElement::NOTA)
-			p.replace_element(d.GetNota(), i_e);
+		p.replace_element(d.GetNota(), sel);
 		else if (d.GetTipElement() == TipElement::PAUZA)
-			p.replace_element(d.GetPauza(), i_e);
+		p.replace_element(d.GetPauza(), sel);
+
+	// update views
+	UpdateAllViews(NULL, 0, NULL);
+	SetModifiedFlag();
 	}
+
+void CArpegioDoc::OnElementRemSel()
+{
+	// no element selected
+	if (sel == -1)
+		return;
+
+	// get element
+	Element* e = p.get_element(sel);
+	if (e == NULL)
+		return;
+
+	// doar pentru note
+	if (e->get_tip_element() != TipElement::NOTA)
+		return;
+
+	// replace nota
+	Pauza pauza = Pauza(e->get_durata());
+	p.replace_element(pauza, sel);
+
+	// update views
+	UpdateAllViews(NULL, 0, NULL);
+	SetModifiedFlag();
+}
+
+void CArpegioDoc::ModNotaSel(bool lower)
+{
+	// no element selected
+	if (sel == -1)
+		return;
+
+	// get element
+	Element* e = p.get_element(sel);
+	if (e == NULL)
+		return;
+
+	// doar pentru note
+	if (e->get_tip_element() != TipElement::NOTA)
+		return;
+
+	Nota* n = (Nota*)e;
+
+	// decrease by one
+	int dif = lower ? -1 : 1;
+	int i = (int)n->get_inaltime() + dif;
+	int octava = n->get_octava();
+	if (i < 0 || i >= 7)
+	{
+		octava += dif;
+		i = lower ? 6 : 0;
+	}
+
+	// replace nota
+	Nota mod = Nota(n->get_durata(), (Inaltime)i, octava);
+	p.replace_element(mod, sel);
+
+	// update views
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
 }
