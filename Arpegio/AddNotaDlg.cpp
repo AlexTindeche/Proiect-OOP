@@ -121,13 +121,13 @@ void AddNotaDlg::OnCbnSelchangeTipelemcombo()
 	if (m_TipElem != curSel && curSel == (int)TipElement::PAUZA)
 	{
 		m_InaltimeNotaComboBox.SetCurSel(0);
-		m_OctavaSliderCtrl.SetPos(0);
+		m_OctavaSliderCtrl.SetPos(OCTAVA_DEF);
+		UpdateData();
 	}
-	UpdateData();
 
 	// disable la controale atunci cand tipul este pauza
-	m_InaltimeNotaComboBox.EnableWindow(m_TipElem == (int)TipElement::NOTA);
-	m_OctavaSliderCtrl.EnableWindow(m_TipElem == (int)TipElement::NOTA);
+	m_InaltimeNotaComboBox.EnableWindow(curSel == (int)TipElement::NOTA);
+	m_OctavaSliderCtrl.EnableWindow(curSel == (int)TipElement::NOTA);
 }
 
 
@@ -142,8 +142,8 @@ void AddNotaDlg::SetupTipCtrl()
 	// prima optiune selectata implicit
 	m_TipElemComboBox.SetCurSel(m_TipElem);
 
-	m_InaltimeNotaComboBox.EnableWindow(m_TipElem == (int)TipElement::NOTA);
-	m_OctavaSliderCtrl.EnableWindow(m_TipElem == (int)TipElement::NOTA);
+	// enable / disable controale in functie de tipul elementului
+	OnCbnSelchangeTipelemcombo();
 }
 
 void AddNotaDlg::SetupDurataCtrl()
