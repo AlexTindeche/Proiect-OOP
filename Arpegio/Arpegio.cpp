@@ -10,7 +10,7 @@
 #include "MainFrm.h"
 
 #include "ArpegioDoc.h"
-#include "ArpegioView.h"
+#include "DocumentView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -186,7 +186,7 @@
     <ClInclude Include="AddNotaDlg.h" />
     <ClInclude Include="Arpegio.h" />
     <ClInclude Include="ArpegioDoc.h" />
-    <ClInclude Include="ArpegioView.h" />
+    <ClInclude Include="DocumentView.h" />
     <ClInclude Include="PropertiesView.h" />
     <ClInclude Include="durata.h" />
     <ClInclude Include="durate.h" />
@@ -202,7 +202,7 @@
     <ClCompile Include="AddNotaDlg.cpp" />
     <ClCompile Include="Arpegio.cpp" />
     <ClCompile Include="ArpegioDoc.cpp" />
-    <ClCompile Include="ArpegioView.cpp" />
+    <ClCompile Include="DocumentView.cpp" />
     <ClCompile Include="PropertiesView.cpp" />
     <ClCompile Include="durata.cpp" />
     <ClCompile Include="durate.cpp" />

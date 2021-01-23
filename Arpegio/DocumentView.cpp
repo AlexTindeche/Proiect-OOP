@@ -12,7 +12,7 @@
 #endif
 
 #include "ArpegioDoc.h"
-#include "ArpegioView.h"
+#include "DocumentView.h"
 
 #include <array>
 using namespace std;

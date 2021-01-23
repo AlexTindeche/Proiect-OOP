@@ -51,9 +51,6 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ArpegioView.h">
-      <Filter>Header Files\views</Filter>
-    </ClInclude>
     <ClInclude Include="portativ.h">
       <Filter>Header Files\data</Filter>
     </ClInclude>
@@ -73,6 +70,9 @@
       <Filter>Header Files\views</Filter>
     </ClInclude>
     <ClInclude Include="MainFrm.h">
+      <Filter>Header Files\views</Filter>
+    </ClInclude>
+    <ClInclude Include="DocumentView.h">
       <Filter>Header Files\views</Filter>
     </ClInclude>
   </ItemGroup>
@@ -98,9 +98,6 @@
     <ClCompile Include="portativ.cpp">
       <Filter>Source Files\data</Filter>
     </ClCompile>
-    <ClCompile Include="ArpegioView.cpp">
-      <Filter>Source Files\views</Filter>
-    </ClCompile>
     <ClCompile Include="AddNotaDlg.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
@@ -108,6 +105,9 @@
       <Filter>Source Files\views</Filter>
     </ClCompile>
     <ClCompile Include="MainFrm.cpp">
+      <Filter>Source Files\views</Filter>
+    </ClCompile>
+    <ClCompile Include="DocumentView.cpp">
       <Filter>Source Files\views</Filter>
     </ClCompile>
   </ItemGroup>
