@@ -1,4 +1,4 @@
-
+﻿
 // ArpegioDoc.cpp : implementation of the CArpegioDoc class
 //
 
@@ -98,6 +98,7 @@ void CArpegioDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
+		// informatii portativ
 		CString titlu(p.get_titlu().c_str());
 		ar << titlu << p.get_masura().get_numarator() << p.get_masura().get_numitor() << (int) p.get_cheie();
 
@@ -107,7 +108,11 @@ void CArpegioDoc::Serialize(CArchive& ar)
 		for (int i = 0; i < size; i++)
 		{
 			Element* c = p.get_element(i);
+
+			// informatii standard element
 			ar << (int)c->get_tip_element() << c->get_durata().get_numarator() << c->get_durata().get_numitor();
+			
+			// informatii specifice nota
 			if (c->get_tip_element() == TipElement::NOTA) {
 				ar << ((Nota*)c)->get_octava() << (int)((Nota*)c)->get_inaltime();
 			}
@@ -115,15 +120,19 @@ void CArpegioDoc::Serialize(CArchive& ar)
 	}
 	else
 	{
+		// informatii portativ
 		CString titlu;
 		int masura_numarator, masura_numitor, cheie, nr_elem;
-		
 		ar >> titlu >> masura_numarator >> masura_numitor >> cheie;
+
+		// initializare portativ
 		p = Portativ(titlu.GetString(), Durata(masura_numarator, masura_numitor, false), (Cheie)cheie);
 
+		// citire elemente
 		ar >> nr_elem;
 		for (int i = 0; i < nr_elem; i++)
 		{
+			// informatii element
 			int tip_elem, dur_numarator, dur_numitor, octava, inaltime;
 			ar >> tip_elem >> dur_numarator >> dur_numitor;
 
@@ -137,7 +146,6 @@ void CArpegioDoc::Serialize(CArchive& ar)
 				p.add_element(Pauza(Durata(dur_numarator, dur_numitor)));
 			}
 		}
-		//p.add_element(Nota(Durate::OPTIME, Inaltime::DO, 3));
 	}
 }
 
@@ -222,11 +230,16 @@ void CArpegioDoc::OnElementAdaugare()
 
 	// add selected element
 	bool success = false;
-		if (d.GetTipElement() == TipElement::NOTA)
+	if (d.GetTipElement() == TipElement::NOTA)
 		success = p.add_element(d.GetNota());
-		else if (d.GetTipElement() == TipElement::PAUZA)
+	else if (d.GetTipElement() == TipElement::PAUZA)
 		success = p.add_element(d.GetPauza());
 
+	// error message if not enough space in current measure
+	if(!success)
+		AfxMessageBox(L"Durata prea mare pentru măsura curentă");
+
+	// update views
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
 }
@@ -262,15 +275,15 @@ void CArpegioDoc::OnElementModificare()
 		return;
 
 	// get updated element data from dialog
-		if (d.GetTipElement() == TipElement::NOTA)
+	if (d.GetTipElement() == TipElement::NOTA)
 		p.replace_element(d.GetNota(), sel);
-		else if (d.GetTipElement() == TipElement::PAUZA)
+	else if (d.GetTipElement() == TipElement::PAUZA)
 		p.replace_element(d.GetPauza(), sel);
 
 	// update views
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
-	}
+}
 
 void CArpegioDoc::OnElementRemSel()
 {
