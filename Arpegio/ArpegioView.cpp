@@ -652,6 +652,11 @@ int CDocumentView::DocumentClick(CPoint point)
 	return sel;
 }
 
+BOOL CDocumentView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	return DoMouseWheel(nFlags, zDelta, pt);
+}
+
 void CDocumentView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	int sel = DocumentClick(point);
