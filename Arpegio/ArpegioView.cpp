@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CDocumentView, CScrollView)
 	ON_WM_MOUSEWHEEL()
 	ON_WM_LBUTTONDBLCLK()
 	ON_WM_LBUTTONDOWN()
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 // ######################################
@@ -664,19 +665,48 @@ void CDocumentView::OnLButtonDown(UINT nFlags, CPoint point)
 	pDoc->SetSelected(sel);
 }
 
-
-BOOL CDocumentView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+void CDocumentView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-	return DoMouseWheel(nFlags, zDelta, pt);
+	CArpegioDoc* pDoc = GetDocument();
+	pDoc->OnElementModificare();
 }
 
 
-void CDocumentView::OnLButtonDblClk(UINT nFlags, CPoint point)
+// Key navigation
+
+void CDocumentView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	// TODO: Add your message handler code here and/or call default
-	int sel = DocumentClick(point);
 	CArpegioDoc* pDoc = GetDocument();
-	pDoc->OnNotaModificare(sel);
-	OutputDebugString(L"dblclick");
-	CScrollView::OnLButtonDblClk(nFlags, point);
+
+	// up / down -> change inaltime si octava nota
+	if (nChar == VK_UP)
+		pDoc->ModNotaSel();
+
+	if (nChar == VK_DOWN)
+		pDoc->ModNotaSel(true);
+
+	// lef / right -> move selected
+	if (nChar == VK_LEFT)
+	{
+		int sel = pDoc->GetSelected();
+		sel--;
+		if (sel >= 0)
+			pDoc->SetSelected(sel);
+	}
+
+	if (nChar == VK_RIGHT)
+	{
+		int sel = pDoc->GetSelected();
+		sel++;
+		if (sel < pDoc->p.get_nr_elemente())
+			pDoc->SetSelected(sel);
+	}
+
+	// escape -> reset selected
+	if (nChar == VK_ESCAPE)
+	{
+		pDoc->SetSelected(-1);
+	}
+
+	CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
