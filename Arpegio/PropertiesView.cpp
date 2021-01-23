@@ -20,6 +20,9 @@ BEGIN_MESSAGE_MAP(CPropertiesView, CFormView)
 	ON_CBN_SELCHANGE(IDC_CHEIECOMBO, &CPropertiesView::OnCbnSelchangeCheiecombo)
 	ON_CBN_SELCHANGE(IDC_MASURA_COMBO, &CPropertiesView::OnCbnSelchangeMasuraCombo)
 	ON_LBN_SELCHANGE(IDC_NOTELIST, &CPropertiesView::OnLbnSelchangeNotelist)
+	ON_LBN_DBLCLK(IDC_NOTELIST, &CPropertiesView::OnLbnDblclkNotelist)
+	ON_BN_CLICKED(IDC_MOD_SEL_BTN, &CPropertiesView::OnBnClickedModSelBtn)
+	ON_BN_CLICKED(IDC_REM_SEL_BTN, &CPropertiesView::OnBnClickedRemSelBtn)
 END_MESSAGE_MAP()
 
 // CPropertiesView construction/destruction
@@ -118,6 +121,25 @@ void CPropertiesView::OnLbnSelchangeNotelist()
 	CArpegioDoc* pDoc = GetDocument();
 	pDoc->SetSelected(m_NotaSel);
 }
+
+
+void CPropertiesView::OnLbnDblclkNotelist()
+{
+	GetDocument()->OnElementModificare();
+}
+
+
+void CPropertiesView::OnBnClickedModSelBtn()
+{
+	GetDocument()->OnElementModificare();
+}
+
+
+void CPropertiesView::OnBnClickedRemSelBtn()
+{
+	GetDocument()->OnElementRemSel();
+}
+
 
 
 void CPropertiesView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)

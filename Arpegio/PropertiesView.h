@@ -51,6 +51,10 @@ protected:
 	afx_msg void OnCbnSelchangeCheiecombo();
 	afx_msg void OnCbnSelchangeMasuraCombo();
 	afx_msg void OnLbnSelchangeNotelist();
+	afx_msg void OnLbnDblclkNotelist();
+	afx_msg void OnBnClickedModSelBtn();
+	afx_msg void OnBnClickedRemSelBtn();
+
 	void PopulateNoteList();
 
 private:
