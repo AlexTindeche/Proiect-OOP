@@ -8,7 +8,7 @@
 using namespace std;
 
 
-// helper structure
+// draw sizes computed at run time
 struct DrawSizes
 {
 	CRect rect;
@@ -16,7 +16,10 @@ struct DrawSizes
 	int contentRight;
 	int contentTop;
 	int contentWidth;
+	int elemMasura;
 	double elemWidth;
+	int minWidth;
+	int documentHeight;
 
 	int rowStart(int r);
 	int colStart(int c);
@@ -71,6 +74,7 @@ protected:
 
 	// Getters
 	int GetDocumentHeight();
+	int GetDocumentMinWidth();
 	CSize GetDocumentSize();
 	CRect GetClientViewRect();
 	DrawSizes GetDrawSizes();
@@ -80,8 +84,8 @@ protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 };
 

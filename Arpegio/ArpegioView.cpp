@@ -28,9 +28,9 @@ using namespace std;
 IMPLEMENT_DYNCREATE(CDocumentView, CScrollView)
 
 BEGIN_MESSAGE_MAP(CDocumentView, CScrollView)
-	ON_WM_LBUTTONDOWN()
 	ON_WM_MOUSEWHEEL()
 	ON_WM_LBUTTONDBLCLK()
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // ######################################
@@ -63,8 +63,6 @@ int H_PORTATIV = (4 + 2 * NR_EXTRA) * SPACING_LINII + SPACING_PORTATIV;
 int PRE_PORTATIV = 75;
 int BAR_WIDTH = 10;
 
-int MIN_WIDTH = 2 * OFFSET_DOCUMENT + UNITATE_MASURA * MASURI_PER_RAND * 2 * SPACING_LINII + PRE_PORTATIV + 3 * BAR_WIDTH;
-
 
 // ######################################
 // # DrawSize definitions
@@ -76,7 +74,7 @@ int DrawSizes::rowStart(int r)
 
 int DrawSizes::colStart(int c)
 {
-	return contentLeft + (int)(c * elemWidth) + c / UNITATE_MASURA * BAR_WIDTH;
+	return contentLeft + (int)(c * elemWidth) + c / elemMasura * BAR_WIDTH;
 }
 
 
@@ -225,7 +223,7 @@ void CDocumentView::DrawLayoutPortativ(CDC* pDC, int startTop, int startLeft, Dr
 	// bare masuri
 	for (int s = 0; s < MASURI_PER_RAND; s++)
 	{
-		int pozitie = draw.contentLeft + (int)(draw.elemWidth * ((double)s + 1) * UNITATE_MASURA) + s * BAR_WIDTH + BAR_WIDTH / 2;
+		int pozitie = draw.contentLeft + (int)(draw.elemWidth * ((double)s + 1) * draw.elemMasura) + s * BAR_WIDTH + BAR_WIDTH / 2;
 
 		// ultima bara din rand lipita de marginea portativului
 		if (s == MASURI_PER_RAND - 1)
@@ -489,7 +487,7 @@ void CDocumentView::IterateElements(function<void(Element*, int, int, int, int, 
 			for (Element* e : pDoc->p.get_elem_masura(m + r * MASURI_PER_RAND))
 			{
 				// calculate position for next element
-				int new_pos = pos + e->get_durata() / Durate::SAISPREZECIME;
+				int new_pos = pos + e->get_durata() / Durata(UNITATE_MASURA);
 				
 				// callback with: element, row, pos, new pos, index el, index mas
 				cb(e, r, pos, new_pos, i_e, i_m);
@@ -518,20 +516,28 @@ int CDocumentView::GetDocumentHeight()
 	return height;
 }
 
+int CDocumentView::GetDocumentMinWidth()
+{
+	int elemMasura = GetDocument()->p.get_masura() / Durata(UNITATE_MASURA);
+	int minWidth = 2 * OFFSET_DOCUMENT + PRE_PORTATIV + elemMasura * MASURI_PER_RAND * SPACING_LINII * 2 + MASURI_PER_RAND * BAR_WIDTH;
+	return minWidth;
+}
+
 CSize CDocumentView::GetDocumentSize()
 {
-	CSize sizeTotal;
-	sizeTotal.cy = (GetDocumentHeight() * H_PORTATIV + TITLE_HEIGHT);
-	sizeTotal.cx = MIN_WIDTH;
-	return sizeTotal;
+	DrawSizes draw = GetDrawSizes();
+	return CSize(draw.minWidth, draw.documentHeight);
 }
 
 CRect CDocumentView::GetClientViewRect()
 {
+	int minWidth = GetDocumentMinWidth();
 	CRect rect;
 	GetClientRect(&rect);
-	if (rect.right < MIN_WIDTH)
-		rect.right = MIN_WIDTH;
+
+	// if client rect smaller than minWidth
+	if (rect.right < minWidth)
+		rect.right = minWidth;
 
 	return rect;
 }
@@ -541,21 +547,29 @@ DrawSizes CDocumentView::GetDrawSizes()
 	// dimensiune continut
 	CRect rect = GetClientViewRect();
 
+	// elemente per masura
+	int elemMasura = GetDocument()->p.get_masura() / Durata(UNITATE_MASURA);
+
 	// setup values
 	int contentLeft = rect.left + OFFSET_DOCUMENT + PRE_PORTATIV;
 	int contentRight = rect.right - OFFSET_DOCUMENT;
 	int contentTop = rect.top + TITLE_HEIGHT;
 	int contentWidth = contentRight - contentLeft - MASURI_PER_RAND * BAR_WIDTH;
-	double elemWidth = contentWidth / ((double)UNITATE_MASURA * MASURI_PER_RAND);
+	double elemWidth = contentWidth / ((double)elemMasura * MASURI_PER_RAND);
+	int minWidth = GetDocumentMinWidth();
+	int documentHeight = GetDocumentHeight() * H_PORTATIV + TITLE_HEIGHT;
 
 	// return struct
-	return DrawSizes {
+	return DrawSizes{
 		rect,
 		contentLeft,
 		contentRight,
 		contentTop,
 		contentWidth,
+		elemMasura,
 		elemWidth,
+		minWidth,
+		documentHeight
 	};
 }
 
@@ -615,7 +629,7 @@ int CDocumentView::DocumentClick(CPoint point)
 
 	// get positions in element grid (x - column; y - row)
 	int x = 0;
-	for (int pos = 0; pos < UNITATE_MASURA * MASURI_PER_RAND; pos++)
+	for (int pos = 0; pos < draw.elemMasura * MASURI_PER_RAND; pos++)
 	{
 		// if point between the start of this position and the start of the next one
 		int startThis = draw.colStart(pos);
@@ -643,7 +657,6 @@ void CDocumentView::OnLButtonDown(UINT nFlags, CPoint point)
 	int sel = DocumentClick(point);
 	CArpegioDoc* pDoc = GetDocument();
 	pDoc->SetSelected(sel);
-	OutputDebugString(L"click");
 }
 
 
