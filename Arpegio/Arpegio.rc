@@ -373,7 +373,7 @@ IDB_PAUZA_SAISPREZECIME BITMAP                  "res\\pauza-saisprezecime.bmp"
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "Arpegio\n\nArpegio\n\n\nArpegio.Document\nArpegio.Document"
+    IDR_MAINFRAME           "Arpegio\nPartitură nouă\nArpegio\nArpegio Documents (*.arpg)\n.arpg\nArpegio.Document\nArpegio Music Sheet Document"
 END
 
 STRINGTABLE

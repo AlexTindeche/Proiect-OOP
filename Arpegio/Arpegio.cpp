@@ -105,7 +105,7 @@ BOOL CArpegioApp::InitInstance()
 
 	// Enable DDE Execute open
 	EnableShellOpen();
-	RegisterShellFileTypes(TRUE);
+	RegisterShellFileTypes();
 
 
 	// Dispatch commands specified on the command line.  Will return FALSE if
