@@ -42,7 +42,7 @@ CArpegioApp::CArpegioApp() noexcept
 
 	// TODO: replace application ID string below with unique ID string; recommended
 	// format for string is CompanyName.ProductName.SubProduct.VersionInformation
-	SetAppID(_T("Arpegio.AppID.NoVersion"));
+	SetAppID(_T("Arpegio.AppID.0.1"));
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
@@ -69,6 +69,13 @@ BOOL CArpegioApp::InitInstance()
 
 	CWinApp::InitInstance();
 
+	// Initialize OLE libraries
+	if (!AfxOleInit())
+	{
+		AfxMessageBox(L"OLE init failed");
+		return FALSE;
+	}
+
 
 	EnableTaskbarInteraction(FALSE);
 
@@ -82,7 +89,7 @@ BOOL CArpegioApp::InitInstance()
 	// Change the registry key under which our settings are stored
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	SetRegistryKey(_T("LTB Software Division"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
 
