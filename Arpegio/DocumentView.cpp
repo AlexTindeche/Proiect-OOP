@@ -354,9 +354,9 @@ void CDocumentView::DrawNota(CDC* pDC, Nota n, Cheie c, bool selected, int row, 
 	{
 		CPoint flag[] = {
 			CPoint(startLeft + inv_w(SPACING_LINII - 1), startBottom + inv_h(- 4 * SPACING_LINII)),
-			CPoint(startLeft + inv_w((double)3 / 2 * SPACING_LINII), startBottom + inv_h(- 3 * SPACING_LINII)),
+			CPoint(startLeft + inv_w((int)((double)3 / 2 * SPACING_LINII)), startBottom + inv_h(- 3 * SPACING_LINII)),
 			CPoint(startLeft + inv_w(2 * SPACING_LINII), startBottom + inv_h(- 3 * SPACING_LINII)),
-			CPoint(startLeft + inv_w((double)3 / 2 * SPACING_LINII + 1), startBottom + inv_h(- 2 * SPACING_LINII + 0.3 * SPACING_LINII))
+			CPoint(startLeft + inv_w((int)((double)3 / 2 * SPACING_LINII + 1)), startBottom + inv_h(- 2 * SPACING_LINII + (int)(0.3 * SPACING_LINII)))
 		};
 		pDC->PolyBezier(flag, 4);
 	}
@@ -366,9 +366,9 @@ void CDocumentView::DrawNota(CDC* pDC, Nota n, Cheie c, bool selected, int row, 
 	{
 		CPoint secondflag[] = {
 			CPoint(startLeft + inv_w(SPACING_LINII - 1), startBottom + inv_h(-3 * SPACING_LINII)),
-			CPoint(startLeft + inv_w((double)3 / 2 * SPACING_LINII), startBottom + inv_h(-2 * SPACING_LINII)),
+			CPoint(startLeft + inv_w((int)((double)3 / 2 * SPACING_LINII)), startBottom + inv_h(-2 * SPACING_LINII)),
 			CPoint(startLeft + inv_w(2 * SPACING_LINII), startBottom + inv_h(-2 * SPACING_LINII)),
-			CPoint(startLeft + inv_w((double)3 / 2 * SPACING_LINII + 1), startBottom + inv_h(-2 * SPACING_LINII + (double) 0.85 * SPACING_LINII + 1))
+			CPoint(startLeft + inv_w((int)((double)3 / 2 * SPACING_LINII + 1)), startBottom + inv_h(-2 * SPACING_LINII + (int)((double) 0.85 * SPACING_LINII + 1)))
 		};
 
 		pDC->PolyBezier(secondflag, 4);
@@ -408,7 +408,7 @@ void CDocumentView::DrawPauza(CDC* pDC, Pauza p, Cheie c, bool selected, int row
 		else if (p.get_durata() == Durate::SAISPREZECIME)
 			idPauza = IDB_PAUZA_SAISPREZECIME;
 
-		InsertBitmap(pDC, idPauza, CSize(100, 200), CSize(draw.elemWidth, 4 * SPACING_LINII), startLeft, startTop, pauza_col);
+		InsertBitmap(pDC, idPauza, CSize(100, 200), CSize((int)draw.elemWidth, 4 * SPACING_LINII), startLeft, startTop, pauza_col);
 	}
 }
 
