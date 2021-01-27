@@ -78,6 +78,9 @@
     <ClInclude Include="AddElemDlg.h">
       <Filter>Header Files\dialogs</Filter>
     </ClInclude>
+    <ClInclude Include="MIDIPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arpegio.cpp">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="AddElemDlg.cpp">
       <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MIDIPlayer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

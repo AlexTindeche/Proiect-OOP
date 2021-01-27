@@ -12,6 +12,10 @@
 
 #include "ArpegioDoc.h"
 #include "AddElemDlg.h"
+#include "MIDIPlayer.h"
+
+#include "DocumentView.h"
+#include "MainFrm.h"
 
 #include <propkey.h>
 
@@ -34,7 +38,8 @@ END_MESSAGE_MAP()
 // CArpegioDoc construction/destruction
 
 CArpegioDoc::CArpegioDoc() noexcept :
-	sel{ -1 }
+	sel{ -1 },
+	disabled { false }
 {
 
 }
@@ -58,6 +63,10 @@ BOOL CArpegioDoc::OnNewDocument()
 
 void CArpegioDoc::UpdateTitlu(CString titlu)
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	p.set_titlu(titlu.GetString());
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
@@ -65,6 +74,10 @@ void CArpegioDoc::UpdateTitlu(CString titlu)
 
 void CArpegioDoc::UpdateCheie(Cheie cheie)
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	p.set_cheie(cheie);
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
@@ -72,6 +85,10 @@ void CArpegioDoc::UpdateCheie(Cheie cheie)
 
 void CArpegioDoc::UpdateMasura(Durata masura)
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	p = Portativ(p.get_titlu(), masura, p.get_cheie());
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
@@ -79,6 +96,10 @@ void CArpegioDoc::UpdateMasura(Durata masura)
 
 void CArpegioDoc::SetSelected(int i)
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	if (i < -1 || i >= p.get_nr_elemente())
 		return;
 
@@ -86,9 +107,24 @@ void CArpegioDoc::SetSelected(int i)
 	UpdateAllViews(NULL, 0, NULL);
 }
 
+void CArpegioDoc::SetPlay(int p)
+{
+	sel = p;
+}
+
 int CArpegioDoc::GetSelected()
 {
 	return sel;
+}
+
+bool CArpegioDoc::GetDisabled()
+{
+	return disabled;
+}
+
+void CArpegioDoc::SetDisabled(bool dis)
+{
+	disabled = dis;
 }
 
 
@@ -223,6 +259,10 @@ void CArpegioDoc::Dump(CDumpContext& dc) const
 
 void CArpegioDoc::OnElementAdaugare()
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	// run dialog
 	AddElemDlg d;
 	if (d.DoModal() == IDCANCEL)
@@ -246,6 +286,10 @@ void CArpegioDoc::OnElementAdaugare()
 
 void CArpegioDoc::OnElementStergere()
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	p.remove_element();
 	UpdateAllViews(NULL, 0, NULL);
 	SetModifiedFlag();
@@ -253,6 +297,10 @@ void CArpegioDoc::OnElementStergere()
 
 void CArpegioDoc::OnElementModificare()
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	// no element selected
 	if (sel == -1)
 		return;
@@ -287,6 +335,10 @@ void CArpegioDoc::OnElementModificare()
 
 void CArpegioDoc::OnElementRemSel()
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	// no element selected
 	if (sel == -1)
 		return;
@@ -311,6 +363,10 @@ void CArpegioDoc::OnElementRemSel()
 
 void CArpegioDoc::ModNotaSel(bool lower)
 {
+	// prevent document modify
+	if (disabled)
+		return;
+
 	// no element selected
 	if (sel == -1)
 		return;
