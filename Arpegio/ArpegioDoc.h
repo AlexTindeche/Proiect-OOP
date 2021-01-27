@@ -40,8 +40,14 @@ public:
 	void UpdateMasura(Durata masura);
 	void UpdateCheie(Cheie cheie);
 	void UpdateTitlu(CString titlu);
+
 	void SetSelected(int i);
 	int GetSelected();
+
+	bool GetDisabled();
+	void SetDisabled(bool d);
+
+	void SetPlay(int p);
 
 protected:
 
@@ -59,6 +65,8 @@ private:
 
 public:
 	Portativ p;
+	bool disabled;
+
 	afx_msg void OnElementAdaugare();
 	afx_msg void OnElementStergere();
 	afx_msg void OnElementModificare();

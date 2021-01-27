@@ -4,6 +4,7 @@
 //
 #define IDD_AppAboutBox                 100
 #define IDR_MAINFRAME                   128
+#define IDS_PLAYINGMESSAGE              129
 #define IDR_ArpegioTYPE                 130
 #define IDD_CPropertiesView             310
 #define IDD_AddElemDlg                  311
@@ -27,13 +28,15 @@
 #define ID_ELEMENT_STERGERE             32779
 #define ID_ELEMENT_MODIFICARE           32780
 #define ID_ELEMENT_REM_SEL              32782
+#define ID_PLAYBACK_START               32789
+#define ID_PLAYBACK_STOP                32790
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        326
-#define _APS_NEXT_COMMAND_VALUE         32787
+#define _APS_NEXT_COMMAND_VALUE         32791
 #define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           312
 #endif

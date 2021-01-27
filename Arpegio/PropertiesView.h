@@ -63,6 +63,8 @@ private:
 	CEdit m_MasIntrgCEdit;
 	CComboBox m_masuraComboBox;
 	CListBox m_NoteListCtrl;
+	CButton m_modSelBtn;
+	CButton m_remSelBtn;
 
 	CString m_titlu;
 	int m_Cheie;
